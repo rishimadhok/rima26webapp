@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Finder</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        #recipe-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .recipe {
+            border: 1px solid #ddd;
+            margin: 10px;
+            padding: 10px;
+            width: 300px;
+        }
+        button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Recipe Finder</h1>
+    <input type="text" id="search" placeholder="Enter a recipe keyword...">
+    <button onclick="searchRecipes()">Search</button>
+    <h2>Results</h2>
+    <div id="recipe-container"></div>
+    <h2>Favorites</h2>
+    <div id="favorites-container"></div>
+
+    <script>
+        function searchRecipes() {
+            const query = document.getElementById("search").value;
+            if (query) {
+                const searchUrl = `https://www.google.com/search?q=${encodeURIComponent(query)}+recipe`;
+                window.open(searchUrl, '_blank');
+            }
+        }
+    </script>
+</body>
+</html>
