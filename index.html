@@ -27,6 +27,18 @@
             padding: 10px;
             cursor: pointer;
         }
+        textarea {
+            width: 80%;
+            height: 150px;
+            margin-top: 20px;
+        }
+        #recipe-results {
+            margin-top: 20px;
+            text-align: left;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
     </style>
 </head>
 <body>
@@ -34,16 +46,29 @@
     <input type="text" id="search" placeholder="Enter a recipe keyword...">
     <button onclick="searchRecipes()">Search</button>
     <h2>Results</h2>
-    <div id="recipe-container"></div>
-    <h2>Favorites</h2>
+    <div id="recipe-results"></div>
+    <h2>Saved Recipes</h2>
     <div id="favorites-container"></div>
 
     <script>
-        function searchRecipes() {
+        async function searchRecipes() {
             const query = document.getElementById("search").value;
             if (query) {
-                const searchUrl = `https://www.google.com/search?q=${encodeURIComponent(query)}+recipe`;
-                window.open(searchUrl, '_blank');
+                const response = await fetch(`https://api.openai.com/v1/completions`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer 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"
+                    },
+                    body: JSON.stringify({
+                        model: "gpt-4",
+                        prompt: `Provide a detailed recipe for ${query}.`,
+                        max_tokens: 300
+                    })
+                });
+                
+                const data = await response.json();
+                document.getElementById("recipe-results").innerText = data.choices[0].text;
             }
         }
     </script>
